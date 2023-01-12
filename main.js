@@ -1,20 +1,21 @@
 
 //open weather api key cbc16625cf1d4c162797052ebd9c2095\
-
+//postman insomnia
 $(function(){
 
   const APIKey = "cbc16625cf1d4c162797052ebd9c2095";
   const today = $('.today')
   const today_items = $(today).children()
   console.log(today_items)
-let lat;
-let lon;
+  let lat, lon;
+  const endpoint = `${url}?appid=${APIKey}`
+
   getApiToday()      
   getApi5Day()
 
 
 function getApiToday() {
-  lat = 44.46;
+  lat = 44.46;//will need to make this equal geocode coordinates
   lon = 93.14;
     const currentWeather = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${APIKey}&units=imperial`
   
