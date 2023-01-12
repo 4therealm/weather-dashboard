@@ -7,13 +7,16 @@ $(function(){
   const today = $('.today')
   const today_items = $(today).children()
   console.log(today_items)
-
+let lat;
+let lon;
   getApiToday()      
   getApi5Day()
 
 
 function getApiToday() {
-    const currentWeather = `https://api.openweathermap.org/data/2.5/weather?lat=44.64&lon=93.14&appid=${APIKey}&units=imperial`
+  lat = 44.46;
+  lon = 93.14;
+    const currentWeather = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${APIKey}&units=imperial`
   
   fetch(currentWeather)
     .then(function (response) {
