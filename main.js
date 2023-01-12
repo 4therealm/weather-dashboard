@@ -57,9 +57,9 @@ function getApi5Day() {
          with temps around ${temp}
         the icon code is ${statusIcon} `)
         
-        
+        const cardDaddy = $('<div>').addClass('col')
         const card = $('<div>')
-            .addClass('card')
+            .addClass('card', )
 
         const cardUl =$('<ul>')
             .addClass('list-group', 'list-group-flush', 'weather-items')     
@@ -70,7 +70,8 @@ function getApi5Day() {
           $(cardUl).append($('<li>').text(temp))
           $(cardUl).children().addClass('list-group-item')
         card.append(cardUl)
-        $('.five-day').append(card)
+        $(cardDaddy).append(card)
+        $('.five-day').append(cardDaddy)
       })
     })
 
