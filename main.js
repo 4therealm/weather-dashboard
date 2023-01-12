@@ -49,15 +49,28 @@ function getApi5Day() {
       const middayArray = [day1,day2,day3,day4,day5]
       console.log(middayArray)
       middayArray.forEach(day=>{
-        const min = day.main.temp_min
-        const max = day.main.temp_max
+        const temp = day.main.temp
         const statusText = day.weather[0].description
         const statusIcon = day.weather[0].icon
         const date = day.dt_txt
+        console.log(`the weather on ${date} will be ${statusText}
+         with temps around ${temp}
+        the icon code is ${statusIcon} `)
+        
+        
+        const card = $('<div>')
+            .addClass('card')
 
+        const cardUl =$('<ul>')
+            .addClass('list-group', 'list-group-flush', 'weather-items')     
 
-        console.log(`the weather on ${date} will be ${statusText} with a min temp will be ${min}
-        and the max temp will be ${max} `)
+          $(cardUl).append($('<li>').text(date))
+          $(cardUl).append($('<li>').text(statusText))
+          $(cardUl).append($('<li>').text(statusIcon))
+          $(cardUl).append($('<li>').text(temp))
+          $(cardUl).children().addClass('list-group-item')
+        card.append(cardUl)
+        $('.five-day').append(card)
       })
     })
 
