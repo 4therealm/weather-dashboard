@@ -10,7 +10,7 @@ $(function(){
       const today = $('.today')
       const today_items = $(today).children()
       console.log(today_items)
-// getApiToday()      
+getApiToday()      
 getApi5Day()
 function getApiToday() {
     const currentWeather = 'https://api.openweathermap.org/data/2.5/weather?lat=46.72&lon=94.68&appid=cbc16625cf1d4c162797052ebd9c2095&units=imperial'
@@ -58,9 +58,7 @@ function getApi5Day() {
         the icon code is ${statusIcon} `)
         
         const cardDaddy = $('<div>').addClass('col')
-        const card = $('<div>')
-            .addClass('card', )
-
+        const card = $('<div>').addClass('card', )
         const cardUl =$('<ul>')
             .addClass('list-group', 'list-group-flush', 'weather-items')     
 
@@ -69,9 +67,10 @@ function getApi5Day() {
           $(cardUl).append($('<li>').text(statusIcon))
           $(cardUl).append($('<li>').text(temp))
           $(cardUl).children().addClass('list-group-item')
-        card.append(cardUl)
-        $(cardDaddy).append(card)
-        $('.five-day').append(cardDaddy)
+          
+          card.append(cardUl)
+          cardDaddy.append(card)
+          $('.five-day').append(cardDaddy)
       })
     })
 
