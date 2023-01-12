@@ -2,18 +2,18 @@
 //open weather api key cbc16625cf1d4c162797052ebd9c2095\
 
 $(function(){
- 
-      
-      const APIKey = "cbc16625cf1d4c162797052ebd9c2095";
-      
-      
-      const today = $('.today')
-      const today_items = $(today).children()
-      console.log(today_items)
-getApiToday()      
-getApi5Day()
+
+  const APIKey = "cbc16625cf1d4c162797052ebd9c2095";
+  const today = $('.today')
+  const today_items = $(today).children()
+  console.log(today_items)
+
+  getApiToday()      
+  getApi5Day()
+
+
 function getApiToday() {
-    const currentWeather = 'https://api.openweathermap.org/data/2.5/weather?lat=46.72&lon=94.68&appid=cbc16625cf1d4c162797052ebd9c2095&units=imperial'
+    const currentWeather = `https://api.openweathermap.org/data/2.5/weather?lat=44.64&lon=93.14&appid=${APIKey}&units=imperial`
   
   fetch(currentWeather)
     .then(function (response) {
@@ -35,7 +35,7 @@ function getApiToday() {
 
 
 function getApi5Day() {
-  const fiveDay = 'https://api.openweathermap.org/data/2.5/forecast?lat=46.72&lon=94.68&&appid=cbc16625cf1d4c162797052ebd9c2095&units=imperial'
+  const fiveDay = 'https://api.openweathermap.org/data/2.5/forecast?lat=44.64&lon=93.14&&appid=cbc16625cf1d4c162797052ebd9c2095&units=imperial'
 
   fetch(fiveDay)
     .then(response => {return response.json()})
@@ -46,8 +46,10 @@ function getApi5Day() {
       const day3 = threeHourArray[19]
       const day4 = threeHourArray[27]
       const day5 = threeHourArray[35]
+      
       const middayArray = [day1,day2,day3,day4,day5]
       console.log(middayArray)
+
       middayArray.forEach(day=>{
         const temp = day.main.temp
         const statusText = day.weather[0].description
@@ -72,13 +74,15 @@ function getApi5Day() {
           cardDaddy.append(card)
           $('.five-day').append(cardDaddy)
       })
-    })
-
-
-
-  
+    }) 
 }
 
+$('#submitBtn').on('click', function(e){
+ console.log('clicked')
+  e.preventDefault()
+  let searchInput = $(this).next().val()
+  console.log(searchInput)
+})
 
 
 
