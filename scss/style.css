@@ -1,0 +1,9 @@
+body{
+  background-color: darkcyan;
+}
+div{
+  outline: 5px solid blue;
+}
+header{
+  height: 80px;
+}
