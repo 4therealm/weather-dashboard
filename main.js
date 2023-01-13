@@ -4,93 +4,113 @@
 $(function(){
 
   const APIKey = "cbc16625cf1d4c162797052ebd9c2095";
-  const today = $('.today')
-  const today_items = $(today).children()
-  console.log(today_items)
-  let lat, lon;
-  const endpoint = `${url}?appid=${APIKey}`
-
-  getApiToday()      
-  getApi5Day()
+  let targetLat=0; 
+  let targetLon=0;
+  let todayUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${targetLat}&lon=${targetLon}&appid=${APIKey}&units=imperial`
+  let fiveDayUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${targetLat}&lon=${targetLon}&appid=${APIKey}&units=imperial`
 
 
-function getApiToday() {
-  lat = 44.46;//will need to make this equal geocode coordinates
-  lon = 93.14;
-    const currentWeather = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${APIKey}&units=imperial`
+
+  let geoCode = `http://api.openweathermap.org/geo/1.0/direct?q=${location},001&appid=${APIKey}`
+
+
+
+retrieve()
+function retrieve(){
+getApiToday(todayUrl)
+getApi5Day(fiveDayUrl)  
+}
+
+function getApiToday(target) {
+  fetch(target)
+  .then( response => {return response.json()})
+  .then( data => {parseWeather1(data)})}
+
+
+function getApi5Day(target){
+  fetch(target)
+  .then( response => {return response.json()})
+  .then( data => {parseWeather5(data)})}
+
+function parseWeather1(data){
+  console.log(data)
+}
+
+function parseWeather5(data){
+  console.log(data)
+  const threeHourArray = data.list
+  const day1 = threeHourArray[3]
+  const day2 = threeHourArray[11]
+  const day3 = threeHourArray[19]
+  const day4 = threeHourArray[27]
+  const day5 = threeHourArray[35]
   
-  fetch(currentWeather)
-    .then(function (response) {
-      return response.json();
-      })
-    .then(function (data) {
-      console.log(data)
-      const temperature = `${data.main.temp} F`
-      const icon = data.weather[0].icon 
-      const description = data.weather[0].description
-      const feelsLike = data.main.feels_like
-      $('#description').text(description)
-      $('#temperature').text(temperature)
-      $('#feels-like').text(feelsLike)
-      })}
-        
+  const middayArray = [day1,day2,day3,day4,day5]
+  console.log(middayArray)
+
+  middayArray.forEach(day=>{
+    const temp = day.main.temp
+    const statusText = day.weather[0].description
+    const statusIcon = day.weather[0].icon
+    const date = day.dt_txt
+    console.log(`the weather on ${date} will be ${statusText}
+     with temps around ${temp}
+    the icon code is ${statusIcon} `)
+    
+    const cardDaddy = $('<div>').addClass('col')
+    const card = $('<div>').addClass('card', )
+    const cardUl =$('<ul>')
+        .addClass('list-group', 'list-group-flush', 'weather-items')     
+
+      $(cardUl).append($('<li>').text(date))
+      $(cardUl).append($('<li>').text(statusText))
+      $(cardUl).append($('<li>').text(statusIcon))
+      $(cardUl).append($('<li>').text(temp))
+      $(cardUl).children().addClass('list-group-item')
+      
+      card.append(cardUl)
+      cardDaddy.append(card)
+      $('.five-day').append(cardDaddy)
+  })
+}
         
     
 
 
-function getApi5Day() {
-  const fiveDay = 'https://api.openweathermap.org/data/2.5/forecast?lat=44.64&lon=93.14&&appid=cbc16625cf1d4c162797052ebd9c2095&units=imperial'
 
-  fetch(fiveDay)
-    .then(response => {return response.json()})
-    .then(data=>{
-      const threeHourArray = data.list
-      const day1 = threeHourArray[3]
-      const day2 = threeHourArray[11]
-      const day3 = threeHourArray[19]
-      const day4 = threeHourArray[27]
-      const day5 = threeHourArray[35]
-      
-      const middayArray = [day1,day2,day3,day4,day5]
-      console.log(middayArray)
 
-      middayArray.forEach(day=>{
-        const temp = day.main.temp
-        const statusText = day.weather[0].description
-        const statusIcon = day.weather[0].icon
-        const date = day.dt_txt
-        console.log(`the weather on ${date} will be ${statusText}
-         with temps around ${temp}
-        the icon code is ${statusIcon} `)
-        
-        const cardDaddy = $('<div>').addClass('col')
-        const card = $('<div>').addClass('card', )
-        const cardUl =$('<ul>')
-            .addClass('list-group', 'list-group-flush', 'weather-items')     
-
-          $(cardUl).append($('<li>').text(date))
-          $(cardUl).append($('<li>').text(statusText))
-          $(cardUl).append($('<li>').text(statusIcon))
-          $(cardUl).append($('<li>').text(temp))
-          $(cardUl).children().addClass('list-group-item')
-          
-          card.append(cardUl)
-          cardDaddy.append(card)
-          $('.five-day').append(cardDaddy)
-      })
-    }) 
-}
 
 $('#submitBtn').on('click', function(e){
  console.log('clicked')
   e.preventDefault()
   let searchInput = $(this).next().val()
-  console.log(searchInput)
+  getCoordinates(searchInput)
 })
 
 
+function getCoordinates(location){
+  let geoCode = `http://api.openweathermap.org/geo/1.0/direct?q=${location},001&appid=${APIKey}`
+  fetch(geoCode)
+  .then(response =>{return response.json();})
+  .then(data => {
+    console.log(data)
+    parseApi(data)})
+}
 
 
+
+
+function parseApi(data){
+targetLat = (data[0].lat)*(-1)
+targetLon = data[0].lon
+const country = data[0].country
+const state = data[0].state
+const city = data[0].name
+console.log(`lat: ${targetLat}, lon: ${targetLon}, ${city}, ${state}, ${country}`)
+let lat_lon = `lat=${targetLat}&lon=${targetLon}&`
+retrieve()
+
+}
     
     
     
