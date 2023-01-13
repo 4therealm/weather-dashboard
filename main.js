@@ -13,7 +13,7 @@ let saved_searches = JSON.parse(localStorage.getItem('savedSearches')) || [];
   let geoCode = `http://api.openweathermap.org/geo/1.0/direct?q=${location},001&appid=${APIKey}`
 
 
-
+cityTabs()
 
 function retrieve(targetLat, targetLon){
 getApiToday(`https://api.openweathermap.org/data/2.5/weather?lat=${targetLat}&lon=${targetLon}&appid=${APIKey}&units=imperial`)
@@ -103,16 +103,16 @@ const state = data[0].state
 const city = data[0].name
 
 let newLocation = {
-  key: `${city}, ${state}, ${country}`,
+  key: city,
   lat: targetLat,
   lon: targetLon
 }
 
 
-if (saved_searches.find(newLocation) !== -1) {
+// if (saved_searches.indexOf(newLocation) !== -1) {
   saved_searches.push(newLocation)
   localStorage.setItem('savedSearches', JSON.stringify(saved_searches))  
-}
+// }
 
 
 retrieve(targetLat, targetLon)
@@ -120,31 +120,24 @@ retrieve(targetLat, targetLon)
 }
     
     
-    function sLocation(obj){
+    function cityTabs(){
+     saved_searches.forEach(city=>{
+       let cityBtn = $('<button>').text(city.key).addClass('cityBtn').attr('data-lat', city.lat).attr('data-lon', city.lon)
+       $('.nav-panel').append(cityBtn)
+       console.log(cityBtn)
+      })}
      
-      }
-     
-  
+  $('.cityBtn').on('click', function(e){
+    e.preventDefault()
+targetLat = $(this).attr('data-lat')
+targetLon = $(this).attr('data-lon')
+console.log(targetLat, targetLon)
+retrieve(targetLat, targetLon)
+  })
     
     
     });
-    //         let object = [temperature, icon, description]
-            
-    //         object.forEach(thing =>{
-    //           let block = document.createElement('div')
-    //           block.textContent = thing
-    //           console.log(block)
-    //           cBody.append(block)
-    //         })
-            
-    //  console.log(object)
-    //         // console.log(data)
-    //         // console.log(data.coord)
-    //         // console.log(description)
-    //         // // console.log(humidity)
-    //         // console.log(temperature + 'F')
-    //         // console.log(data.weather[0].icon)
-            
+
     //       });
 
 
