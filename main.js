@@ -4,10 +4,8 @@
 $(function(){
 
   const APIKey = "cbc16625cf1d4c162797052ebd9c2095";
-  let targetLat=0 
-  let targetLon=0
-  let todayUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${targetLat}&lon=${targetLon}&appid=${APIKey}&units=imperial`
-  let fiveDayUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${targetLat}&lon=${targetLon}&appid=${APIKey}&units=imperial`
+  let targetLat;
+  let targetLon;
 
 
 
@@ -37,7 +35,7 @@ function parseWeather1(weather){
 }
 
 function parseWeather5(weather){
-  // console.log(data)
+$('.five-day').empty()
   const threeHourArray = weather.list
   const day1 = threeHourArray[3]
   const day2 = threeHourArray[11]
@@ -52,11 +50,7 @@ function parseWeather5(weather){
     const temp = day.main.temp
     const statusText = day.weather[0].description
     const statusIcon = day.weather[0].icon
-    const date = day.dt_txt
-    // console.log(`the weather on ${date} will be ${statusText}
-    //  with temps around ${temp}
-    // the icon code is ${statusIcon} `)
-    
+    const date = day.dt_txt    
     const cardDaddy = $('<div>').addClass('col')
     const card = $('<div>').addClass('card', )
     const cardUl =$('<ul>')
@@ -102,12 +96,11 @@ function getCoordinates(location){
 
 function parseApi(data){
 targetLat = data[0].lat;
-targetLon = data[0].lon
-// console.log(typeof targetLon)
-// const country = data[0].country
-// const state = data[0].state
-// const city = data[0].name
-// console.log(`lat: ${targetLat}, lon: ${targetLon}, ${city}, ${state}, ${country}`)
+targetLon = data[0].lon;
+const country = data[0].country
+const state = data[0].state
+const city = data[0].name
+console.log(`lat: ${targetLat}, lon: ${targetLon}, ${city}, ${state}, ${country}`)
 
 retrieve(targetLat, targetLon)
 
