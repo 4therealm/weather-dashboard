@@ -4,8 +4,8 @@
 $(function(){
 
   const APIKey = "cbc16625cf1d4c162797052ebd9c2095";
-  let targetLat=0; 
-  let targetLon=0;
+  let targetLat=0 
+  let targetLon=0
   let todayUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${targetLat}&lon=${targetLon}&appid=${APIKey}&units=imperial`
   let fiveDayUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${targetLat}&lon=${targetLon}&appid=${APIKey}&units=imperial`
 
@@ -15,10 +15,10 @@ $(function(){
 
 
 
-retrieve()
-function retrieve(){
-getApiToday(todayUrl)
-getApi5Day(fiveDayUrl)  
+
+function retrieve(targetLat, targetLon){
+getApiToday(`https://api.openweathermap.org/data/2.5/weather?lat=${targetLat}&lon=${targetLon}&appid=${APIKey}&units=imperial`)
+getApi5Day(`https://api.openweathermap.org/data/2.5/forecast?lat=${targetLat}&lon=${targetLon}&appid=${APIKey}&units=imperial`)  
 }
 
 function getApiToday(target) {
@@ -32,13 +32,13 @@ function getApi5Day(target){
   .then( response => {return response.json()})
   .then( data => {parseWeather5(data)})}
 
-function parseWeather1(data){
-  console.log(data)
+function parseWeather1(weather){
+  console.log(weather)
 }
 
-function parseWeather5(data){
-  console.log(data)
-  const threeHourArray = data.list
+function parseWeather5(weather){
+  // console.log(data)
+  const threeHourArray = weather.list
   const day1 = threeHourArray[3]
   const day2 = threeHourArray[11]
   const day3 = threeHourArray[19]
@@ -53,9 +53,9 @@ function parseWeather5(data){
     const statusText = day.weather[0].description
     const statusIcon = day.weather[0].icon
     const date = day.dt_txt
-    console.log(`the weather on ${date} will be ${statusText}
-     with temps around ${temp}
-    the icon code is ${statusIcon} `)
+    // console.log(`the weather on ${date} will be ${statusText}
+    //  with temps around ${temp}
+    // the icon code is ${statusIcon} `)
     
     const cardDaddy = $('<div>').addClass('col')
     const card = $('<div>').addClass('card', )
@@ -101,14 +101,15 @@ function getCoordinates(location){
 
 
 function parseApi(data){
-targetLat = (data[0].lat)*(-1)
+targetLat = data[0].lat;
 targetLon = data[0].lon
-const country = data[0].country
-const state = data[0].state
-const city = data[0].name
-console.log(`lat: ${targetLat}, lon: ${targetLon}, ${city}, ${state}, ${country}`)
-let lat_lon = `lat=${targetLat}&lon=${targetLon}&`
-retrieve()
+// console.log(typeof targetLon)
+// const country = data[0].country
+// const state = data[0].state
+// const city = data[0].name
+// console.log(`lat: ${targetLat}, lon: ${targetLon}, ${city}, ${state}, ${country}`)
+
+retrieve(targetLat, targetLon)
 
 }
     
