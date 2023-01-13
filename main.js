@@ -6,7 +6,8 @@ $(function(){
   const APIKey = "cbc16625cf1d4c162797052ebd9c2095";
   let targetLat;
   let targetLon;
-
+  let searchedLocations = JSON.parse(localStorage.getItem('searchedLocation'))
+  if (searchedLocations ==null) searchedLocations = [];
 
 
   let geoCode = `http://api.openweathermap.org/geo/1.0/direct?q=${location},001&appid=${APIKey}`
@@ -100,8 +101,16 @@ targetLon = data[0].lon;
 const country = data[0].country
 const state = data[0].state
 const city = data[0].name
-console.log(`lat: ${targetLat}, lon: ${targetLon}, ${city}, ${state}, ${country}`)
 
+let newLocation = {
+  lat: targetLat,
+  lon: targetLon,
+  key: `${city}, ${state}`
+}
+console.log(newLocation)
+searchedLocations.push(newLocation)
+localStorage.setItem('searchedLocations', JSON.stringify(searchedLocations))
+console.log(searchedLocations)
 retrieve(targetLat, targetLon)
 
 }
