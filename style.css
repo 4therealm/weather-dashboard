@@ -1,9 +1,45 @@
+
 body{
+  color: aliceblue;
   background-color: rgb(2, 38, 38);
 }
-div{
-  /* outline: 5px solid blue; */
+.card{
+  color: black;
+}
+.icon{
+  background-color: rgb(3, 89, 120);
+height: 15rem;
+width: auto;
 }
 header{
   height: 80px;
+}
+.today{
+  background-color: rgb(3, 89, 120);
+  color: black;
+  font-size: x-large;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  border-top-left-radius:2rem ;
+  border-top-right-radius: 2rem;
+  border-bottom-left-radius: 2rem;
+  border-bottom-right-radius: 2rem;
+  text-transform: uppercase;
+  box-shadow: var(--letter-block-shadow);
+}
+h1{
+  font-size: 10rem;
+}
+.card > ul >li{
+  background-color: rgb(3, 89, 120);
+  font-size: large;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: black;
+
+}
+.bg-change{
+  background-color: rgb(3, 89, 120);
+}
+.card-daddy{
+  margin-bottom: 2rem;
 }
