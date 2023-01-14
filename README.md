@@ -4,8 +4,9 @@ A weather forecast app with current weather, and next five days.
 Assignment: #6  
 Due: 1/14/2023
 Repo: https://github.com/4therealm/weather-dashboard  
-Deployed: https://4therealm.github.io/weather-dashboard/  
-<img src="/images/screenshot.png"> 
+Deployed: https://4therealm.github.io/weather-dashboard/    
+
+<img src="/images/screenshot.PNG"> 
 
 ## User Story  
 AS A traveler
