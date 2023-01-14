@@ -38,7 +38,7 @@ $(function(){
     let day = $("<div>").addClass('col-12').append('<h1>').text(today)
     const city = $("<div>").addClass('col-12').append('<h1>').html(`${weather.name}`)
     const statusText =$("<div>").addClass('col-12').append('<p>').html(`Current weather ${weather.weather[0].description}`)
-    const statusIcon =$("<div>").addClass('col-12').append($('<img id="dynamic">').attr('src', `http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`).addClass('icon'));
+    const statusIcon =$("<div>").addClass('col-12').append($('<img id="dynamic">').attr('src', `https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`).addClass('icon'));
     const temp = $("<div>").addClass('col-6').append('<h2>').html(`Current Temp ${parseInt(weather.main.temp)}F°`)
     const feels_like =$("<div>").addClass('col-4').append('<p>').html(`Feels like ${parseInt(weather.main.feels_like)}F°`)
     const temp_max =$("<div>").addClass('col-4').append('<p>').html( `high: ${parseInt(weather.main.temp_max)}F°`)
@@ -66,7 +66,7 @@ $(function(){
       const temp = `${parseInt(day.main.temp)}F°`
       const statusText = day.weather[0].description
       const statusIcon = $('<img id="dynamic">')
-        .attr('src', `http://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`)
+        .attr('src', `https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`)
         .addClass('icon');
       const date = new dayjs(day.dt_txt).format('dddd-DD')   
       console.log(date)
@@ -97,7 +97,7 @@ $(function(){
 
 
   function getCoordinates(location){
-    let geoCode = `http://api.openweathermap.org/geo/1.0/direct?q=${location},001&appid=${APIKey}`
+    let geoCode = `https://api.openweathermap.org/geo/1.0/direct?q=${location},001&appid=${APIKey}`
     fetch(geoCode)
     .then(response =>{return response.json();})
     .then(data => {
