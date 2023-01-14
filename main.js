@@ -75,12 +75,15 @@ $(function(){
       const cardUl =$('<ul>').addClass('cardUl')
           .addClass('list-group', 'list-group-flush', 'weather-items')     
 
-      $('.five-day').append(cardDaddy.append(card.append(cardUl
-        .append($('<li>').text(date))
-        .append($('<li>').text(statusText))
-        .append(statusIcon)
-        .append($('<li>').text(temp))
-        .children().addClass('list-group-item'))))        
+      $('.five-day')
+        .append(cardDaddy
+          .append(card
+            .append(cardUl
+              .append($('<li>').text(date))
+              .append($('<li>').text(statusText))
+              .append(statusIcon)
+              .append($('<li>').text(temp))
+                .children().addClass('list-group-item'))))        
     })
   }
         
