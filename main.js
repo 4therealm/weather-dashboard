@@ -4,17 +4,18 @@
 $(function(){
 
   const APIKey = "cbc16625cf1d4c162797052ebd9c2095";
-  let targetLat;
-  let targetLon;
-  let most_recent = JSON.parse(localStorage.getItem('most_recent'))
+  let most_recent = JSON.parse(localStorage.getItem('most_recent')) || {}
   let saved_searches = JSON.parse(localStorage.getItem('savedSearches')) || [];
   let geoCode = `http://api.openweathermap.org/geo/1.0/direct?q=${location},001&appid=${APIKey}`
-console.log(most_recent)
-retrieve(44.64,-93.14)
-cityTabs()
-let today = dayjs().format('dddd')
-console.log(today)
+  let today = dayjs().format('dddd')
+  let btnContainer= $('<div>')
+  let targetLat = most_recent.lat || 44.97;
+  let targetLon = most_recent.lon || -93.26;
+  cityTabs()
+  retrieve(targetLat, targetLon)
+  
   function retrieve(targetLat, targetLon){
+    console.log(targetLat + targetLon)
     getApiToday(`https://api.openweathermap.org/data/2.5/weather?lat=${targetLat}&lon=${targetLon}&appid=${APIKey}&units=imperial`)
     getApi5Day(`https://api.openweathermap.org/data/2.5/forecast?lat=${targetLat}&lon=${targetLon}&appid=${APIKey}&units=imperial`)  
   }
@@ -27,7 +28,6 @@ console.log(today)
 
 
   function getApi5Day(target){
-    
     fetch(target)
    .then( response => {return response.json()})
   .then( data => {parseWeather5(data)})}
@@ -62,11 +62,11 @@ console.log(today)
     // console.log(middayArray)
 
     middayArray.forEach(day=>{
-      const temp = day.main.temp
+      const temp = `${parseInt(day.main.temp)}F°`
       const statusText = day.weather[0].description
       const statusIcon = $('<img id="dynamic">').attr('src', `http://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`).addClass('icon');
       const date = dayjs(day.dt_txt).format('dddd')    
-      const cardDaddy = $('<div>').addClass('col card-daddy')
+      const cardDaddy = $('<div>').addClass('col card-daddy mb-5')
       const card = $('<div>').addClass('card', )
       const cardUl =$('<ul>').addClass('cardUl')
           .addClass('list-group', 'list-group-flush', 'weather-items')     
@@ -86,9 +86,11 @@ console.log(today)
     
 
   $('#submitBtn').on('click', function(e){
-  console.log('clicked')
+    console.log('clicked')
     e.preventDefault()
     let searchInput = $(this).next().val()
+    console.log(searchInput)
+
     getCoordinates(searchInput)
   })
 
@@ -98,7 +100,7 @@ console.log(today)
     fetch(geoCode)
     .then(response =>{return response.json();})
     .then(data => {
-      // console.log(data)
+      console.log(data)
       parseApi(data)})
   }
 
@@ -117,27 +119,31 @@ function parseApi(data){
     lat: targetLat,
     lon: targetLon
   }
-localStorage.setItem('most_recent', JSON.stringify(newLocation))
-// if (saved_searches.indexOf(newLocation) !== -1) {
+
+  for(var i = 0; i < saved_searches.length; i++) {
+    if(saved_searches[i].key == city) {
+        saved_searches.splice(i, 1);
+        break;}
+  }
   saved_searches.push(newLocation)
-  // console.log(saved_searches)
-  
   localStorage.setItem('savedSearches',JSON.stringify(saved_searches))  
+  localStorage.setItem('most_recent', JSON.stringify(newLocation))
 
-  // console.log( localStorage.getItem('savedSearches'))
-
-}
-
+  retrieve(newLocation.lat, newLocation.lon)
+    
+  }
 
 
 
     
+  console.log($('.nav-panel'))
     
     function cityTabs(){
-     saved_searches.forEach(city=>{
-       let cityBtn = $('<button>').text(city.key).addClass('cityBtn').attr('data-lat', city.lat).attr('data-lon', city.lon)
-       $('.nav-panel').append(cityBtn)
-       console.log(cityBtn)
+      
+      saved_searches.forEach(city=>{
+        btnContainer.empty()
+        let cityBtn = $('<button>').text(city.key).addClass('cityBtn').attr('data-lat', city.lat).attr('data-lon', city.lon)
+       $('header').append(btnContainer).append(cityBtn)
       })}
      
   $('.cityBtn').on('click', function(e){
@@ -147,7 +153,6 @@ targetLon = $(this).attr('data-lon')
 console.log(targetLat, targetLon)
 retrieve(targetLat, targetLon)
   })
-    // retrieve(most_recent.lat, most_recent.lon)
     
     });
 
